@@ -1,0 +1,7 @@
+D:\Programming\ItSTEP\C#\Exam(Ivan_Zaporozhets)\File_Explorer\File_Explorer\bin\Debug\File_Explorer.exe.config
+D:\Programming\ItSTEP\C#\Exam(Ivan_Zaporozhets)\File_Explorer\File_Explorer\bin\Debug\File_Explorer.exe
+D:\Programming\ItSTEP\C#\Exam(Ivan_Zaporozhets)\File_Explorer\File_Explorer\bin\Debug\File_Explorer.pdb
+D:\Programming\ItSTEP\C#\Exam(Ivan_Zaporozhets)\File_Explorer\File_Explorer\obj\Debug\File_Explorer.csproj.AssemblyReference.cache
+D:\Programming\ItSTEP\C#\Exam(Ivan_Zaporozhets)\File_Explorer\File_Explorer\obj\Debug\File_Explorer.csproj.CoreCompileInputs.cache
+D:\Programming\ItSTEP\C#\Exam(Ivan_Zaporozhets)\File_Explorer\File_Explorer\obj\Debug\File_Explorer.exe
+D:\Programming\ItSTEP\C#\Exam(Ivan_Zaporozhets)\File_Explorer\File_Explorer\obj\Debug\File_Explorer.pdb
