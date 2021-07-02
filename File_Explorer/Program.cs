@@ -10,9 +10,8 @@ namespace File_Explorer
     {
         static void Main(string[] args)
         {
-            string[] menuItems = { "Item 1", "Item 2", "Item 3", "4", "5", "6"};
-            FileExplorer fe = new FileExplorer(menuItems);
-            FEConsoleMenu menu = new FEConsoleMenu(fe);
+            FileManager fe = new FileManager();
+            ConsoleMenu menu = new ConsoleMenu(fe);
 
             while(true)
             {
