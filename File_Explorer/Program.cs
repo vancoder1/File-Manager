@@ -11,13 +11,23 @@ namespace File_Explorer
         static void Main(string[] args)
         {
             FileManager fe = new FileManager();
-            ConsoleMenu menu = new ConsoleMenu(fe);
+            FMConsoleMenu menu = new FMConsoleMenu(fe);
 
-            while(true)
+            List<string> disks = fe.Get_Disks();
+            string disk_choice = "continue";
+            while (disk_choice == "continue")
             {
-                if (menu.PrintMenu() == 1)
+                disk_choice = menu.PrintMenu_DiskChoice(disks);
+            }
+            
+            if (disk_choice != "esc")
+            {
+                while (true)
                 {
-                    break;
+                    if(!menu.PrintMenu(disk_choice))
+                    {
+                        break;
+                    }
                 }
             }
         }
