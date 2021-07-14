@@ -70,37 +70,36 @@ namespace File_Explorer
 
         public void UpdateDirectory()
         {
-            try
-            {
-                directoryItems = new List<Files_And_Dirictories>();
-                List<string> directoriesAndFiles = new List<string>();
-                directoriesAndFiles = new List<string>(Directory.GetDirectories(currentDirectoryPath));
-                directoriesAndFiles.AddRange(new List<string>(Directory.GetFiles(currentDirectoryPath)));
+            directoryItems = new List<Files_And_Dirictories>();
+            List<string> directoriesAndFiles = new List<string>();
+            directoriesAndFiles = new List<string>(Directory.GetDirectories(currentDirectoryPath));
+            directoriesAndFiles.AddRange(new List<string>(Directory.GetFiles(currentDirectoryPath)));
 
-                if (currentDirectoryPath.LastIndexOf("\\") - currentDirectoryPath.IndexOf("\\") != 0)
-                {
-                    
-                }
-                else if (currentDirectoryPath.Count() == 3)
-                {
-                    directoryItems.Add(new Files_And_Dirictories("..Disc Choice", "disk_choice"));
-                }
-                else
-                {
-                    string backPath = currentDirectoryPath.Remove(currentDirectoryPath.LastIndexOf("\\") + 1);
-                    directoryItems.Add(new Files_And_Dirictories("..", backPath));
-                }
-                
-                for (int i = 0; i < directoriesAndFiles.Count; i++)
-                {
-                    directoryItems.Add(new Files_And_Dirictories(directoriesAndFiles[i]));
-                }
-            }
-            catch(ArgumentOutOfRangeException)
+
+            if (currentDirectoryPath.Length == 3)
             {
-                Console.WriteLine("error");
+                directoryItems.Add(new Files_And_Dirictories("..Disc Choice", "disk_choice"));
             }
-            
+            else
+            {
+                string backPath = "";
+                try
+                {
+                    backPath = currentDirectoryPath.Remove(currentDirectoryPath.LastIndexOf("\\") + 1);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    backPath = currentDirectoryPath.Remove(currentDirectoryPath.LastIndexOf("\\"));
+                }
+
+                directoryItems.Add(new Files_And_Dirictories("..", backPath));
+            }
+
+            for (int i = 0; i < directoriesAndFiles.Count; i++)
+            {
+                directoryItems.Add(new Files_And_Dirictories(directoriesAndFiles[i]));
+            }
+
         }
         public void ShowFileInfo(string path)
         {
