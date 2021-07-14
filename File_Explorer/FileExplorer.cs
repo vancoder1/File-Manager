@@ -129,6 +129,7 @@ namespace File_Explorer
             if (disk.Count() == 3)
             {
                 _fm.currentDirectoryPath = disk;
+                _fm.UpdateDirectory();
             }
             if (_currentItem > _fm.directoryItems.Count)
             {
@@ -189,51 +190,57 @@ namespace File_Explorer
         }
         public string PrintMenu_DiskChoice(List<string> menuItems)
         {
-            for (int i = 0; i < menuItems.Count(); i++)
+            bool flag = true;
+            while(flag)
             {
-                if (i == _currentItem)
+                for (int i = 0; i < menuItems.Count(); i++)
                 {
-                    Console.SetCursorPosition(0, i);
-                    Console.Write(_arrow + " ");
-                    Console.BackgroundColor = ConsoleColor.Green;
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-                else
-                {
-                    Console.SetCursorPosition(0, i);
+                    if (i == _currentItem)
+                    {
+                        Console.SetCursorPosition(0, i);
+                        Console.Write(_arrow + " ");
+                        Console.BackgroundColor = ConsoleColor.Green;
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+                    else
+                    {
+                        Console.SetCursorPosition(0, i);
+                        Console.BackgroundColor = ConsoleColor.Black;
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write("  ");
+                    }
+                    Console.WriteLine(menuItems[i]);
                     Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.Write("  ");
                 }
-                Console.WriteLine(menuItems[i]);
-                Console.BackgroundColor = ConsoleColor.Black;
-                Console.ForegroundColor = ConsoleColor.White;
-            }
 
-            ConsoleKeyInfo keyInfo = Console.ReadKey();
+                ConsoleKeyInfo keyInfo = Console.ReadKey();
 
 
-            switch (keyInfo.Key)
-            {
+                switch (keyInfo.Key)
+                {
 
-                case ConsoleKey.UpArrow:
-                    if (_currentItem > 0)
-                    {
-                        _currentItem--;
-                    }
-                    break;
-                case ConsoleKey.DownArrow:
-                    if (_currentItem < menuItems.Count() - 1)
-                    {
-                        _currentItem++;
-                    }
-                    break;
-                case ConsoleKey.Enter:
-                    return menuItems[_currentItem];
-                case ConsoleKey.Escape:
-                    Console.Clear();
-                    return "esc";
-            }
+                    case ConsoleKey.UpArrow:
+                        if (_currentItem > 0)
+                        {
+                            _currentItem--;
+                        }
+                        break;
+                    case ConsoleKey.DownArrow:
+                        if (_currentItem < menuItems.Count() - 1)
+                        {
+                            _currentItem++;
+                        }
+                        break;
+                    case ConsoleKey.Enter:
+                        flag = false;
+                        return menuItems[_currentItem];
+                    case ConsoleKey.Escape:
+                        Console.Clear();
+                        flag = false;
+                        return "esc";
+                }
+            }            
             return "continue";
         }
     }

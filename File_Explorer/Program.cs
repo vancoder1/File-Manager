@@ -15,16 +15,29 @@ namespace File_Explorer
 
             List<string> disks = fe.Get_Disks();
             string disk_choice = "continue";
-            while (disk_choice == "continue")
-            {
-                disk_choice = menu.PrintMenu_DiskChoice(disks);
-            }
+
+            disk_choice = menu.PrintMenu_DiskChoice(disks);
+
             
             if (disk_choice != "esc")
             {
                 while (true)
                 {
-                    int menu_num = menu.PrintMenu(disk_choice);
+                    int menu_num;
+                    try
+                    {
+                        menu_num = menu.PrintMenu(disk_choice);
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Press any key to continue");
+                        Console.WriteLine("\nYou do not have permission to access!");
+                        Console.ReadKey();
+                        Console.Clear();
+                        continue;
+                    }
+                    
                     if (menu_num == 2)
                     {
                         break;
@@ -33,10 +46,8 @@ namespace File_Explorer
                     {
                         disks = fe.Get_Disks();
                         disk_choice = "continue";
-                        while (disk_choice == "continue")
-                        {
-                            disk_choice = menu.PrintMenu_DiskChoice(disks);
-                        }
+                        disk_choice = menu.PrintMenu_DiskChoice(disks);
+
                     }
                 }
             }
