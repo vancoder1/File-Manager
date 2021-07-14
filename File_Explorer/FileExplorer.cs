@@ -126,7 +126,7 @@ namespace File_Explorer
         }
         public int PrintMenu(string disk)
         {
-            if (disk.Count() == 3)
+            if (_fm.currentDirectoryPath.Length == 3)
             {
                 _fm.currentDirectoryPath = disk;
                 _fm.UpdateDirectory();
