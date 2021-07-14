@@ -36,10 +36,26 @@ namespace File_Explorer
 
             UpdateDirectory();
         }
-        public void ChangeDirectoryOrRunProcess(string path)
+        public int ChangeDirectoryOrRunProcess(string path)
         {
-            currentDirectoryPath = path;
-            UpdateDirectory();
+            if (path == "disk_choice")
+            {
+                return 1;
+            }
+            if (Directory.Exists(path))
+            {
+                currentDirectoryPath = path;
+                UpdateDirectory();
+                return 0;
+            }
+            else if (File.Exists(path))
+            {
+                ShowFileInfo(path);
+                Console.ReadKey();
+                Console.Clear();
+                return 0;
+            }
+            return 0;
         }
 
         public List<string> Get_Disks()
@@ -63,9 +79,17 @@ namespace File_Explorer
 
                 if (currentDirectoryPath.LastIndexOf("\\") - currentDirectoryPath.IndexOf("\\") != 0)
                 {
-                    string backPath = currentDirectoryPath.Remove(currentDirectoryPath.LastIndexOf("\\"));
+                    
+                }
+                else if (currentDirectoryPath.Count() == 3)
+                {
+                    directoryItems.Add(new Files_And_Dirictories("..Disc Choice", "disk_choice"));
+                }
+                else
+                {
+                    string backPath = currentDirectoryPath.Remove(currentDirectoryPath.LastIndexOf("\\") + 1);
                     directoryItems.Add(new Files_And_Dirictories("..", backPath));
-                }             
+                }
                 
                 for (int i = 0; i < directoriesAndFiles.Count; i++)
                 {
@@ -78,6 +102,17 @@ namespace File_Explorer
             }
             
         }
+        public void ShowFileInfo(string path)
+        {
+            FileInfo fi = new FileInfo(path);
+
+            Console.Clear();
+            Console.WriteLine("Press any key to return to the File Explorer");
+            Console.WriteLine("\nFile name: " + fi.Name);
+            Console.WriteLine("Path: " + fi.FullName);
+            Console.WriteLine("Creation time: " + fi.CreationTimeUtc);
+            Console.WriteLine("Size: " + fi.Length + " bytes");
+        }
     }
     class FMConsoleMenu
     {
@@ -89,17 +124,21 @@ namespace File_Explorer
         {
             _fm = fm;
         }
-        public bool PrintMenu(string disk)
+        public int PrintMenu(string disk)
         {
             if (disk.Count() == 3)
             {
                 _fm.currentDirectoryPath = disk;
             }
+            if (_currentItem > _fm.directoryItems.Count)
+            {
+                _currentItem = 0;
+            }
 
             for (int i = 0; i < _fm.directoryItems.Count; i++)
             {
                 if (i == _currentItem)
-                {                       
+                {
                     Console.SetCursorPosition(0, i);                       
                     Console.Write(_arrow + " ");
                     Console.BackgroundColor = ConsoleColor.Green;
@@ -117,7 +156,7 @@ namespace File_Explorer
                 Console.ForegroundColor = ConsoleColor.White;
             }
 
-            ConsoleKeyInfo keyInfo = Console.ReadKey();
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
 
 
             switch (keyInfo.Key)
@@ -137,12 +176,16 @@ namespace File_Explorer
                     break;
                 case ConsoleKey.Enter:
                     Console.Clear();
-                    _fm.ChangeDirectoryOrRunProcess(_fm.directoryItems[_currentItem].Path);
+                    if (_fm.ChangeDirectoryOrRunProcess(_fm.directoryItems[_currentItem].Path) == 1)
+                    {
+                        _currentItem = 0;
+                        return 1;
+                    }
                     break;
                 case ConsoleKey.Escape:
-                    return false;
+                    return 2;
             }
-            return true;
+            return 0;
         }
         public string PrintMenu_DiskChoice(List<string> menuItems)
         {
@@ -186,7 +229,6 @@ namespace File_Explorer
                     }
                     break;
                 case ConsoleKey.Enter:
-                    Console.Clear();
                     return menuItems[_currentItem];
                 case ConsoleKey.Escape:
                     Console.Clear();

@@ -24,9 +24,19 @@ namespace File_Explorer
             {
                 while (true)
                 {
-                    if(!menu.PrintMenu(disk_choice))
+                    int menu_num = menu.PrintMenu(disk_choice);
+                    if (menu_num == 2)
                     {
                         break;
+                    }
+                    else if (menu_num == 1)
+                    {
+                        disks = fe.Get_Disks();
+                        disk_choice = "continue";
+                        while (disk_choice == "continue")
+                        {
+                            disk_choice = menu.PrintMenu_DiskChoice(disks);
+                        }
                     }
                 }
             }
